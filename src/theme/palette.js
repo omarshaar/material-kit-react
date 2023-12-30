@@ -20,8 +20,8 @@ export const grey = {
 export const primary = {
   lighter: '#D0ECFE',
   light: '#73BAFB',
-  main: '#1877F2',
-  dark: '#0C44AE',
+  main: '#002D6D',
+  dark: '#01142F',
   darker: '#042174',
   contrastText: '#FFFFFF',
 };
@@ -29,7 +29,7 @@ export const primary = {
 export const secondary = {
   lighter: '#EFD6FF',
   light: '#C684FF',
-  main: '#8E33FF',
+  main: '#C12147',
   dark: '#5119B7',
   darker: '#27097A',
   contrastText: '#FFFFFF',

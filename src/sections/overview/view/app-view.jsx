@@ -1,68 +1,89 @@
-import { faker } from '@faker-js/faker';
-
+import { useEffect, useState } from 'react';
+// MUI
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-
+import { useTheme } from '@mui/material/styles';
+// Components
+// import AppWidgetSummary from '../app-widget-summary';
+import { AppWidgetSummary } from 'src/myComponents';
+// My Hooks
+import { useResponsiveSizes } from 'src/hooks/use-responsive-sizes';
+import Icons from 'src/assets/Icons';
+import AppInprogressOrders from 'src/sections/overview/app-inprogress-orders';
 import Iconify from 'src/components/iconify';
-
-import AppTasks from '../app-tasks';
-import AppNewsUpdate from '../app-news-update';
-import AppOrderTimeline from '../app-order-timeline';
-import AppCurrentVisits from '../app-current-visits';
-import AppWebsiteVisits from '../app-website-visits';
-import AppWidgetSummary from '../app-widget-summary';
-import AppTrafficBySite from '../app-traffic-by-site';
-import AppCurrentSubject from '../app-current-subject';
-import AppConversionRates from '../app-conversion-rates';
 
 // ----------------------------------------------------------------------
 
 export default function AppView() {
+  const theme = useTheme();
+  const [ summarys, setSummarys ] = useState({
+    totalUsers: null,
+    newUsers: null,
+    salesToday: null,
+    products: null,
+  });
+
+
   return (
     <Container maxWidth="xl">
-      <Typography variant="h4" sx={{ mb: 5 }}>
-        Hi, Welcome back 👋
-      </Typography>
+      {/* <Typography variant="h4" sx={{ mb: useResponsiveSizes(1, 1, undefined, "md") }} style={{direction: theme.direction.main, color: theme.palette.action.active }}> مرحبا بك مجددا 👋 </Typography> */}
 
-      <Grid container spacing={3}>
-        <Grid xs={12} sm={6} md={3}>
+      <Typography variant="subtitle1" sx={{p: 1}} style={{direction: theme.direction.main, color: theme.palette.action.active }}> نظرة عامة </Typography>
+
+      <Grid container spacing={useResponsiveSizes(0, 1.5, "xs", "sm")} sx={{ mb: useResponsiveSizes(1, 1, undefined, "md") }}>
+        <Grid xs={6} sm={4} md={3}>
           <AppWidgetSummary
-            title="Weekly Sales"
-            total={714000}
+            title="جميع الطلبات"
+            total={8000}
             color="success"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+            icon={<Iconify icon="ic:sharp-store" sx={{ color: 'primary.main', width: {xs: 25, md: 35}, height: {xs: 25, md: 35} }} />}
           />
         </Grid>
 
-        <Grid xs={12} sm={6} md={3}>
+        <Grid xs={6} sm={4} md={3}>
           <AppWidgetSummary
-            title="New Users"
-            total={1352831}
-            color="info"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
+            title="جميع المدفوعات"
+            total={800000}
+            color="success"
+            icon={<Iconify icon="streamline:payment-10-solid" sx={{ color: 'primary.main', width: {xs: 20, md: 34}, height: {xs: 20, md: 34} }} />}
           />
         </Grid>
 
-        <Grid xs={12} sm={6} md={3}>
+        <Grid xs={6} sm={4} md={3}>
           <AppWidgetSummary
-            title="Item Orders"
-            total={1723315}
-            color="warning"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
+            title="طلبات اليوم"
+            total={800000}
+            color="success"
+            icon={<Iconify icon="streamline:calendar-jump-to-date-solid" sx={{ color: 'primary.main', width: {xs: 20, md: 30}, height: {xs: 20, md: 30} }} />}
           />
         </Grid>
 
-        <Grid xs={12} sm={6} md={3}>
+        <Grid xs={6} sm={4} md={3}>
           <AppWidgetSummary
-            title="Bug Reports"
-            total={234}
-            color="error"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
+            title="قيد التنفيذ"
+            total={800000}
+            color="success"
+            icon={<Iconify icon="material-symbols:deployed-code-update-sharp" sx={{ color: 'primary.main', width: {xs: 25, md: 35}, height: {xs: 25, md: 35} }} />}
           />
         </Grid>
+      </Grid>
 
-        <Grid xs={12} md={6} lg={8}>
+      <Typography variant='subtitle1' sx={{p: 1}} style={{direction: theme.direction.main, color: theme.palette.action.active }} > قيد التنفيذ </Typography>
+      <AppInprogressOrders />
+      
+    </Container>
+  );
+}
+
+
+
+
+
+
+
+/*
+<Grid xs={12} md={6} lg={8}>
           <AppWebsiteVisits
             title="Website Visits"
             subheader="(+43%) than last year"
@@ -224,7 +245,5 @@ export default function AppView() {
             ]}
           />
         </Grid>
-      </Grid>
-    </Container>
-  );
-}
+
+*/

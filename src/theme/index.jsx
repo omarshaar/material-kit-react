@@ -9,6 +9,7 @@ import { shadows } from './shadows';
 import { overrides } from './overrides';
 import { typography } from './typography';
 import { customShadows } from './custom-shadows';
+import { direction } from './direction';
 
 // ----------------------------------------------------------------------
 
@@ -20,6 +21,7 @@ export default function ThemeProvider({ children }) {
       shadows: shadows(),
       customShadows: customShadows(),
       shape: { borderRadius: 8 },
+      direction
     }),
     []
   );

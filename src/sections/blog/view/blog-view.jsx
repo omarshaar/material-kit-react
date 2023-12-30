@@ -32,6 +32,7 @@ export default function BlogView() {
             { value: 'latest', label: 'Latest' },
             { value: 'popular', label: 'Popular' },
             { value: 'oldest', label: 'Oldest' },
+            { value: 'oldest', label: 'Oldest' },
           ]}
         />
       </Stack>
