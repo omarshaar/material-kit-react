@@ -12,6 +12,9 @@ const EditOrder = () => {
     const [ editOn, setEditOn ] = useState(0);
     const theme = useTheme();
 
+    function handleEdit() {
+        
+    }
 
     return (
         <SectionCard title="التعديل على الطلب" spacing={useResponsiveSizes(1,1, undefined, "sm")} >

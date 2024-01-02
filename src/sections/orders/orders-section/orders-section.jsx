@@ -17,16 +17,23 @@ import Iconify from 'src/components/iconify';
 import { RasidCard, TranslatorCard, AuthsCard, VisaCard } from "src/myComponents";
 
 
+const OrdersSection = ({orders}) => {
+    const navigate = useNavigate();
 
-const OrdersSection = () => {
+    function handleOpenOrder(item) {
+        navigate('/order/'+item.hubID, { state: item });
+    }
+
     return (
         <Grid container spacing={useResponsiveSizes(0, 1.5, "xs", "sm")}>
-            <Grid xs={15} md={6}><RasidCard /></Grid>
-            <Grid xs={15} md={6}><RasidCard /></Grid>
-            <Grid xs={15} md={6}><TranslatorCard /></Grid>
-            <Grid xs={15} md={6}><TranslatorCard /></Grid>
-            <Grid xs={15} md={6}><AuthsCard /></Grid>
-            <Grid xs={15} md={6}><VisaCard /></Grid>
+            {   orders &&
+                orders.map((item, index) => {
+                    if (item.order_type == "rasid") return <Grid xs={15} md={6} key={"rasid_" + item.id}><RasidCard data={item} callBack={()=> handleOpenOrder(item)} /></Grid>
+                    else if (item.order_type == "server_translation") return <Grid xs={15} md={6} key={"server_translation_" + item.id}><TranslatorCard data={item} callBack={()=> handleOpenOrder(item)} /></Grid>
+                    else if (item.order_type == "server_auth") return <Grid xs={15} md={6} key={"server_auth_" + item.id}><AuthsCard data={item} callBack={()=> handleOpenOrder(item)} /></Grid>
+                    else if (item.order_type == "server_visa") return <Grid xs={15} md={6} key={"server_visa_" + item.id}><VisaCard data={item} callBack={()=> handleOpenOrder(item)} /></Grid>
+                })
+            }
         </Grid>
     );
 }

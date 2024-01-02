@@ -1,25 +1,24 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 // Hooks
 import { useTheme } from '@mui/material/styles';
-import { forwardRef } from "react";
+import { forwardRef, useEffect } from "react";
 import { useResponsiveSizes } from "src/hooks/use-responsive-sizes";
 import SectionCard from "src/myComponents/order-page-components/SectionCard";
-
+import { AuthsCard, RasidCard, TranslatorCard, VisaCard } from "..";
 
 const OrderDetails = (props) => {
     const theme = useTheme();
-    const { sx } = props;
- 
+    const { sx, data } = props
 
     return (
-        <SectionCard sx={{py: 3}}>
-            <Row title="الاسم:" value="omar shaar" />
-            <Row title="رقم الطلبية:" value="1056" />
-            <Row title="المبلغ:" value="10" />
-            <div style={{height: 1, width: "100%", backgroundColor: "#ddd", marginTop: 10, marginBottom: 10}}></div>
-            <Row title="عدد المستندات:" value="2" color={theme.palette.error.dark} />
-            <Row title="نوع المستند:" value="شهادات ميلاد/ شهادات وفاة" color={theme.palette.error.dark} />
-        </SectionCard>
+        <>
+        {
+            data.order_type == "rasid" ? <RasidCard data={data} details={true} />
+            : data.order_type == "server_translation" ? <TranslatorCard data={data} details={true} />
+            : data.order_type == "server_auth" ? <AuthsCard data={data} details={true} />
+            : data.order_type == "server_visa" ? <VisaCard data={data} details={true} /> : <></>
+        }
+        </>
     );
 }
 

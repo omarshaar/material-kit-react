@@ -19,7 +19,7 @@ export default function AppWidgetSummary(props) {
         >
             {icon && <Box sx={{ width: {xs: 25 , sm: 30, md: 45}, height: {xs: 25 , sm: 30, md: 45} }}>{icon}</Box>}
             <Typography variant="h5" sx={{fontSize: useResponsiveSizes(10, 3, "xs", "md")}} > {title} </Typography>
-            <Typography variant="h5" sx={{fontSize: useResponsiveSizes(13, 2, "xs", "md"), color: "secondary.main"}} > { fShortenNumber(total) } </Typography>
+            <Typography variant="h5" sx={{fontSize: useResponsiveSizes(13, 2, "xs", "md"), color: "secondary.main"}} > { total > 0 ? fShortenNumber(total) : 0 } </Typography>
         </Card>
     );
 }

@@ -16,6 +16,7 @@ import { useResponsiveSizes } from "src/hooks/use-responsive-sizes";
 import Iconify from 'src/components/iconify';
 import { RasidCard, TranslatorCard, AuthsCard, VisaCard } from "src/myComponents";
 import OrdersSection from '../orders-section/orders-section';
+import { getOrders } from 'src/services/orders';
 
 // ----------------------------------------------------------------------
 
@@ -23,7 +24,12 @@ export default function OrdersView() {
   const navigate = useNavigate();
   const theme = useTheme();
   const { id } = useParams();
-  const [ selectedOrdersCategory, setSelectedOrdersCategory ] = useState("all");
+  const [ orders, setOrders ] = useState([]);
+  const [ ordersFillters, setOrdersFillters ] = useState({
+    page: 1,
+    perPage: 10
+  });
+  const [ selectedOrdersCategory, setSelectedOrdersCategory ] = useState(id || "all");
   const  categoryOptions = [
     {
       lable: "جميع الطلبات",
@@ -53,11 +59,23 @@ export default function OrdersView() {
   ];
   useEffect(()=>{ handleRouteName(); },[]);
 
+  useEffect(()=>{
+    handleGetOrders(id);
+  },[id])
+
   const handleRouteName = () => { 
     let invalideRouteName = true;
     categoryOptions.forEach((item)=> {if(item.value == id) invalideRouteName = false})
     !invalideRouteName && setSelectedOrdersCategory(id);
   };
+
+  const handleGetOrders = () => {
+    getOrders(ordersFillters, id).then(res=> {
+      if (res.success == "true") {
+        setOrders(res.data);
+      }
+    });
+  }
 
 
 
@@ -71,7 +89,7 @@ export default function OrdersView() {
         </TextField>
       </Box>
 
-      <OrdersSection />
+      <OrdersSection orders={orders} />
       
     </Container>
   );

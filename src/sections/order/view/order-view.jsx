@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 // MUI
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -21,14 +21,14 @@ import OrderSection from '../order-section/order-section';
 // ----------------------------------------------------------------------
 
 export default function OrderView() {
-  const navigate = useNavigate();
   const theme = useTheme();
   const { id } = useParams();
-
+  const { state } = useLocation();
+  
   return (
     <Container maxWidth="xl" sx={{direction: theme.direction.main}}>
       {/* <Typography variant="h4" sx={{ mb: useResponsiveSizes(1, 1, undefined, "md")}}> الطلبات </Typography> */}
-      <OrderSection id={id} />
+      <OrderSection id={id} data={state} />
     </Container>
   );
 }

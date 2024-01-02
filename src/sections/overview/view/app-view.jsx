@@ -12,17 +12,28 @@ import { useResponsiveSizes } from 'src/hooks/use-responsive-sizes';
 import Icons from 'src/assets/Icons';
 import AppInprogressOrders from 'src/sections/overview/app-inprogress-orders';
 import Iconify from 'src/components/iconify';
+import { init } from 'src/services/orders';
 
 // ----------------------------------------------------------------------
 
 export default function AppView() {
   const theme = useTheme();
   const [ summarys, setSummarys ] = useState({
-    totalUsers: null,
-    newUsers: null,
-    salesToday: null,
-    products: null,
+    all_orders: 0,
+    all_paid_orders: 0,
+    inprogress_orders: 0,
+    today_orders: 0,
   });
+  const [ inProgressOrders, setInProgressOrders ] = useState([]);
+
+  useEffect(()=>{
+    init().then((res)=>{
+      if(res.success == "true"){
+        setSummarys(res.overview);
+        setInProgressOrders(res.inprogress_orders);
+      }
+    });
+  },[]);
 
 
   return (
@@ -35,7 +46,7 @@ export default function AppView() {
         <Grid xs={6} sm={4} md={3}>
           <AppWidgetSummary
             title="جميع الطلبات"
-            total={8000}
+            total={summarys.all_orders}
             color="success"
             icon={<Iconify icon="ic:sharp-store" sx={{ color: 'primary.main', width: {xs: 25, md: 35}, height: {xs: 25, md: 35} }} />}
           />
@@ -44,7 +55,7 @@ export default function AppView() {
         <Grid xs={6} sm={4} md={3}>
           <AppWidgetSummary
             title="جميع المدفوعات"
-            total={800000}
+            total={summarys.all_paid_orders}
             color="success"
             icon={<Iconify icon="streamline:payment-10-solid" sx={{ color: 'primary.main', width: {xs: 20, md: 34}, height: {xs: 20, md: 34} }} />}
           />
@@ -53,7 +64,7 @@ export default function AppView() {
         <Grid xs={6} sm={4} md={3}>
           <AppWidgetSummary
             title="طلبات اليوم"
-            total={800000}
+            total={summarys.today_orders || 0}
             color="success"
             icon={<Iconify icon="streamline:calendar-jump-to-date-solid" sx={{ color: 'primary.main', width: {xs: 20, md: 30}, height: {xs: 20, md: 30} }} />}
           />
@@ -62,7 +73,7 @@ export default function AppView() {
         <Grid xs={6} sm={4} md={3}>
           <AppWidgetSummary
             title="قيد التنفيذ"
-            total={800000}
+            total={summarys.inprogress_orders}
             color="success"
             icon={<Iconify icon="material-symbols:deployed-code-update-sharp" sx={{ color: 'primary.main', width: {xs: 25, md: 35}, height: {xs: 25, md: 35} }} />}
           />
@@ -70,7 +81,8 @@ export default function AppView() {
       </Grid>
 
       <Typography variant='subtitle1' sx={{p: 1}} style={{direction: theme.direction.main, color: theme.palette.action.active }} > قيد التنفيذ </Typography>
-      <AppInprogressOrders />
+
+      <AppInprogressOrders inProgressOrders={inProgressOrders} />
       
     </Container>
   );

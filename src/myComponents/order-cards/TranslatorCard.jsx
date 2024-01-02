@@ -5,26 +5,35 @@ import { forwardRef, useState } from "react";
 import { useResponsiveSizes } from "src/hooks/use-responsive-sizes";
 import Typography from '@mui/material/Typography';
 import Iconify from 'src/components/iconify';
+import { extractDate, extractTime } from "src/utils/format-created-dateTime";
 
 
 const TranslatorCard = (props) => {
     const theme = useTheme();
-    const { data, sx } = props;
+    const { data, sx, callBack, details } = props;
 
 
     return (
         <Card
           spacing={1}
+          onClick={callBack}
           component={Stack}
-          sx={{ direction: theme.direction.main, p: useResponsiveSizes(1, 1, "xs", "md"), borderRadius: 2, boxShadow: theme.shadows[2], ...sx,  }}
+          sx={{ direction: theme.direction.main, p: useResponsiveSizes(1, 1, "xs", "md"), borderRadius: 2, boxShadow: theme.shadows[2], cursor: "pointer", ...sx,  }}
         >
             <Box sx={{flex: 1, display: "flex" , justifyContent: "space-between", alignItems: "center"}} component={"div"}>
+
                 <Box sx={{flex: 1}} >
-                    <Row title="الاسم:" value="omar shaar" />
-                    <Row title="رقم الطلبية:" value="1056" />
-                    <Row title="المبلغ:" value="10" />
+                    <Row title="الاسم:" value={data.wish_name} />
+                    <Row title="رقم الطلبية:" value={data.hubID} />
+                    <Row title="المبلغ:" value={data.total_payment_amount} />
+                    { details && <div style={{height: 1, width: "100%", backgroundColor: "#ddd", marginTop: 10, marginBottom: 10}}></div>}
+                    { details && <Row title="التاريخ:" value={extractDate(data.created_at)} />}
+                    { details && <Row title="الوقت:" value={extractTime(data.created_at)} />}
+                    { details && <Row title="تحقق الدفع:" value={data.paid ? "مدفوعة" : "غير مدفوعة" } />}
+                    { details && <Row title="المعرف الخاص:" value={data.id} />}
+                    { details && data.capital && <Row title="التكلفة:" value={data.capital} /> }
                     <div style={{height: 1, width: "100%", backgroundColor: "#ddd", marginTop: 10, marginBottom: 10}}></div>
-                    <Row title="الصفحات:" value="2" color={theme.palette.error.dark} />
+                    <Row title="الصفحات:" value={data.paperAmount} color={theme.palette.error.dark} />
                 </Box>
 
                 <Box sx={{
