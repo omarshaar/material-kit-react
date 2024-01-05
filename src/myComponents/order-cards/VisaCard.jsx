@@ -30,7 +30,7 @@ const VisaCard = (props) => {
         >
             <Box sx={{flex: 1, display: "flex" , justifyContent: "space-between", alignItems: "center"}} component={"div"}>
                 <Box sx={{flex: 1}} >
-                    <Row title="الاسم:" value="omar shaar" />
+                    <Row title="الاسم:" value={data.first_name + " " + data.last_name} />
                     <Row title="رقم الطلبية:" value="1056" />
                     <Row title="المبلغ:" value={data.total_payment_amount} />
                     { details &&  <div style={{height: 1, width: "100%", backgroundColor: "#ddd", marginTop: 10, marginBottom: 10}}></div>}

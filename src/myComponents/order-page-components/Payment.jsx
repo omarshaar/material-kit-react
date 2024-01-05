@@ -20,6 +20,9 @@ const Payment = (props) => {
         if (value) query["total_payment_amount"] = value;
         if (value) query["status"] = "الطلب قيد التنفيذ";
 
+        const sure = window.confirm("هل انت متأكد؟");
+        if(!sure) return;
+        
         editOrder(id, type, JSON.stringify(query)).then((res) => {
             if (res) {
                 setValue("");

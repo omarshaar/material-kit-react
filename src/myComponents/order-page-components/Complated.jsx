@@ -18,6 +18,8 @@ const Complated = (props) => {
 
     const handleOrderComplated = () => {
         if (!taklifa || isNaN(parseInt(taklifa))) { window.alert("الرجاء ادخال قيمة التكلفة"); return};
+        const sure = window.confirm("هل انت متأكد؟");
+        if(!sure) return;
         complatedOrder(id, type, taklifa, hubID).then((res)=>{
             console.log(res);
             if (res.success) navigate('/order/'+hubID, { state: {reload: true} });

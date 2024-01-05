@@ -31,7 +31,8 @@ export const getOrders = async (fillters, category) =>{
 
     const config = {
         headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${partnerData.data.token}`
         }
     };
 
@@ -40,14 +41,14 @@ export const getOrders = async (fillters, category) =>{
     return Respo.data;
 }
 
-
 export const getOrder = async (order_hub_id) =>{
     const partnerData = await handleLogin();
     const API_Endpoint = `${BASE_URL}/api/order/${partnerData.data.id}?order_hub_id=${order_hub_id}`;
 
     const config = {
         headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${partnerData.data.token}`
         }
     };
 
@@ -73,7 +74,28 @@ export const complatedOrder = async (id, ordertype, capital, hubID) =>{
         }
     };
 
-    console.log(partnerData.data.token);
+    const Respo = await axios.post(API_Endpoint, data, config);
+    
+    return Respo.data;
+}
+
+export const failedOrder = async (id, ordertype, hubID, status) =>{
+    const partnerData = await handleLogin();
+    const API_Endpoint = `${BASE_URL}/api/order/failed/${partnerData.data.id}`;
+
+    const data = {
+        order_id: id,
+        order_type: ordertype,
+        hub_id: hubID
+    };
+    if (status) { data["status"] = status }
+
+    const config = {
+        headers: {
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${partnerData.data.token}`
+        }
+    };
 
     const Respo = await axios.post(API_Endpoint, data, config);
     
@@ -98,6 +120,22 @@ export const editOrder = async (id, ordertype, order_data) =>{
     };
 
     const Respo = await axios.post(API_Endpoint, data, config);
+    
+    return Respo.data;
+}
+
+export const getBalance = async () =>{
+    const partnerData = await handleLogin();
+    const API_Endpoint = `${BASE_URL}/api/balance/${partnerData.data.id}`;
+
+    const config = {
+        headers: {
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${partnerData.data.token}`
+        }
+    };
+
+    const Respo = await axios.get(API_Endpoint, config);
     
     return Respo.data;
 }

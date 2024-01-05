@@ -13,10 +13,13 @@ import Icons from 'src/assets/Icons';
 import AppInprogressOrders from 'src/sections/overview/app-inprogress-orders';
 import Iconify from 'src/components/iconify';
 import { init } from 'src/services/orders';
+import { useNavigate } from 'react-router-dom';
+import { Box } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
 export default function AppView() {
+  const navigate = useNavigate();
   const theme = useTheme();
   const [ summarys, setSummarys ] = useState({
     all_orders: 0,
@@ -38,12 +41,17 @@ export default function AppView() {
 
   return (
     <Container maxWidth="xl">
-      {/* <Typography variant="h4" sx={{ mb: useResponsiveSizes(1, 1, undefined, "md") }} style={{direction: theme.direction.main, color: theme.palette.action.active }}> مرحبا بك مجددا 👋 </Typography> */}
+      { inProgressOrders.length > 0 &&
+        <>
+          <Typography variant="h4" sx={{ mb: useResponsiveSizes(1, 0, undefined, "md") }} style={{direction: theme.direction.main, color: theme.palette.action.active }}> مرحبا بك مجددا 👋 </Typography>
+          <Typography variant="h6" sx={{ mb: useResponsiveSizes(1, 1, undefined, "md"), fontSize: {xs: 13, md: 16} }} style={{direction: theme.direction.main, color: theme.palette.action.active }}>  لديك طلبات لتنفيذها </Typography>
+        </>  
+      }
 
       <Typography variant="subtitle1" sx={{p: 1}} style={{direction: theme.direction.main, color: theme.palette.action.active }}> نظرة عامة </Typography>
 
       <Grid container spacing={useResponsiveSizes(0, 1.5, "xs", "sm")} sx={{ mb: useResponsiveSizes(1, 1, undefined, "md") }}>
-        <Grid xs={6} sm={4} md={3}>
+        <Grid xs={6} sm={4} md={3} onClick={()=> navigate("/orders")} >
           <AppWidgetSummary
             title="جميع الطلبات"
             total={summarys.all_orders}
@@ -52,7 +60,7 @@ export default function AppView() {
           />
         </Grid>
 
-        <Grid xs={6} sm={4} md={3}>
+        <Grid xs={6} sm={4} md={3} onClick={()=> navigate("/orders/paid")}>
           <AppWidgetSummary
             title="جميع المدفوعات"
             total={summarys.all_paid_orders}
@@ -61,7 +69,7 @@ export default function AppView() {
           />
         </Grid>
 
-        <Grid xs={6} sm={4} md={3}>
+        <Grid xs={6} sm={4} md={3} onClick={()=> navigate("/orders/today")}>
           <AppWidgetSummary
             title="طلبات اليوم"
             total={summarys.today_orders || 0}
@@ -70,7 +78,7 @@ export default function AppView() {
           />
         </Grid>
 
-        <Grid xs={6} sm={4} md={3}>
+        <Grid xs={6} sm={4} md={3} onClick={()=> navigate("/orders/inprogress")}>
           <AppWidgetSummary
             title="قيد التنفيذ"
             total={summarys.inprogress_orders}
@@ -82,7 +90,20 @@ export default function AppView() {
 
       <Typography variant='subtitle1' sx={{p: 1}} style={{direction: theme.direction.main, color: theme.palette.action.active }} > قيد التنفيذ </Typography>
 
-      <AppInprogressOrders inProgressOrders={inProgressOrders} />
+      { inProgressOrders.length > 0 && <AppInprogressOrders inProgressOrders={inProgressOrders} /> }
+      { inProgressOrders.length <= 0 &&
+        <Box sx={{
+          flex: 1,
+          height: "35vh",
+          display:"flex",
+          justifyContent:"center",
+          alignItems:"center",
+          flexDirection: "column"
+        }}>
+          <Typography variant='h6' style={{direction: theme.direction.main, color: theme.palette.action.active, marginBottom: 20 }}> لايوجد طلبات لتنفيذها </Typography>
+          <img src='/assets/icons/noOrdersNow.svg' width={38} style={{opacity: 0.95}}/>
+        </Box>
+      }
       
     </Container>
   );

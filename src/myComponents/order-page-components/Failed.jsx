@@ -5,7 +5,7 @@ import { forwardRef, useEffect, useState } from "react";
 import { useResponsiveSizes } from "src/hooks/use-responsive-sizes";
 import SectionCard from "src/myComponents/order-page-components/SectionCard";
 import { MyButton, MyInput } from "src/myComponents";
-import { editOrder } from "src/services/orders";
+import { editOrder, failedOrder } from "src/services/orders";
 import { useNavigate } from "react-router-dom";
 
 
@@ -18,9 +18,11 @@ const Failed = (props) => {
     function handleIsFailed() {
         const query = {failed: 1, complated: 0};
         if (value) query["status"] = value;
-
-        editOrder(id, type, JSON.stringify(query)).then((res) => {
-            console.log(res);
+        
+        const sure = window.confirm("هل انت متأكد؟");
+        if(!sure) return;
+        
+        failedOrder(id, type, hubID, value).then(res=> {
             if (res) {
                 setValue("");
                 navigate('/order/'+hubID, { state: {reload: true} });

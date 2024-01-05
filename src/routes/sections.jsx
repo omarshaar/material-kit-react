@@ -11,6 +11,7 @@ export const ProductsPage = lazy(() => import('src/pages/products'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export const Orders = lazy(() => import('src/pages/orders'));
 export const Order = lazy(() => import('src/pages/order'));
+export const Wallet = lazy(() => import('src/pages/wallet'));
 
 // ----------------------------------------------------------------------
 
@@ -36,6 +37,10 @@ export default function Router() {
         {
           path: 'order/:id',
           element: <Order />,
+        },
+        {
+          path: 'wallet',
+          element: <Wallet />,
         },
         { path: 'blog', element: <BlogPage /> },
       ],

@@ -13,7 +13,8 @@ const EditOrder = () => {
     const theme = useTheme();
 
     function handleEdit() {
-        
+        const sure = window.confirm("هل انت متأكد؟");
+        if(!sure) return;
     }
 
     return (

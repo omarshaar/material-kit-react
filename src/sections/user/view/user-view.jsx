@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -21,10 +21,14 @@ import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
+import { getUsers } from 'src/services/users';
 
 // ----------------------------------------------------------------------
 
 export default function UserPage() {
+  const [ data, setData ] = useState([]);
+  const [ lastPage, setLastPage ] = useState(0);
+
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -35,7 +39,7 @@ export default function UserPage() {
 
   const [filterName, setFilterName] = useState('');
 
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -56,20 +60,21 @@ export default function UserPage() {
 
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
+    console.log(name);
+    // let newSelected = [];
+    // if (selectedIndex === -1) {
+    //   newSelected = newSelected.concat(selected, name);
+    // } else if (selectedIndex === 0) {
+    //   newSelected = newSelected.concat(selected.slice(1));
+    // } else if (selectedIndex === selected.length - 1) {
+    //   newSelected = newSelected.concat(selected.slice(0, -1));
+    // } else if (selectedIndex > 0) {
+    //   newSelected = newSelected.concat(
+    //     selected.slice(0, selectedIndex),
+    //     selected.slice(selectedIndex + 1)
+    //   );
+    // }
+    // setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -92,6 +97,30 @@ export default function UserPage() {
     filterName,
   });
 
+  const getUserData = () => {
+    getUsers(rowsPerPage ,page).then(res=> {
+      if (res.success == "true") {
+        console.log(res);
+        setLastPage(res.last_page);
+        setData(res.data);
+      }
+    });
+  }
+
+  function getRandomNumber() {
+    // توليد رقم عشوائي بين 0 و 1
+    var randomNumber = Math.random();
+    // تحويله إلى رقم بين 1 و 25
+    var result = Math.floor(randomNumber * 25) + 1;
+
+    return result;
+  }
+
+
+  useEffect(()=>{
+    getUserData();
+  },[page, rowsPerPage]);
+
   const notFound = !dataFiltered.length && !!filterName;
 
   return (
@@ -113,7 +142,7 @@ export default function UserPage() {
 
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset' }}>
-            <Table sx={{ minWidth: 800 }}>
+            <Table sx={{ minWidth: 700 }}>
               <UserTableHead
                 order={order}
                 orderBy={orderBy}
@@ -123,48 +152,51 @@ export default function UserPage() {
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
                   { id: 'name', label: 'Name' },
-                  { id: 'company', label: 'Company' },
-                  { id: 'role', label: 'Role' },
-                  { id: 'isVerified', label: 'Verified', align: 'center' },
+                  { id: 'email', label: 'Email' },
+                  { id: 'country', label: 'Country' },
+                  { id: 'city', label: 'City', align: 'center' },
                   { id: 'status', label: 'Status' },
                   { id: '' },
                 ]}
               />
-              <TableBody>
-                {dataFiltered
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => (
-                    <UserTableRow
-                      key={row.id}
-                      name={row.name}
-                      role={row.role}
-                      status={row.status}
-                      company={row.company}
-                      avatarUrl={row.avatarUrl}
-                      isVerified={row.isVerified}
-                      selected={selected.indexOf(row.name) !== -1}
-                      handleClick={(event) => handleClick(event, row.name)}
+              {
+                useMemo(()=> 
+                  <TableBody>
+                    {[...data]
+                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      .map((row, index) => (
+                        <UserTableRow
+                          key={row.id}
+                          name={row.name}
+                          user_country={row.user_country}
+                          status={row.is_account_deleted ? "banned" : "active"}
+                          email={row.email}
+                          avatarUrl={`/assets/images/avatars/avatar_${getRandomNumber()}.jpg`}
+                          user_city={row.user_city}
+                          // selected={selected.indexOf(row.name) !== -1}
+                          handleClick={(event) => handleClick(event, row.name)}
+                        />
+                      ))}
+
+                    <TableEmptyRows
+                      height={77}
+                      emptyRows={emptyRows(page, rowsPerPage, users.length)}
                     />
-                  ))}
 
-                <TableEmptyRows
-                  height={77}
-                  emptyRows={emptyRows(page, rowsPerPage, users.length)}
-                />
-
-                {notFound && <TableNoData query={filterName} />}
-              </TableBody>
+                    {notFound && <TableNoData query={filterName} />}
+                  </TableBody>
+                ,[data])
+              }
             </Table>
           </TableContainer>
         </Scrollbar>
-
         <TablePagination
           page={page}
           component="div"
-          count={users.length}
+          count={lastPage}
           rowsPerPage={rowsPerPage}
           onPageChange={handleChangePage}
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[10, 20, 30]}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Card>
