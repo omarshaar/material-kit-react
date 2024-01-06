@@ -7,14 +7,14 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 // Hooks
 import { useTheme } from '@mui/material/styles';
 // Coustem Hooks
 import { useResponsiveSizes } from "src/hooks/use-responsive-sizes";
 // components
 import Iconify from 'src/components/iconify';
-import { RasidCard, TranslatorCard, AuthsCard, VisaCard } from "src/myComponents";
+import { RasidCard, TranslatorCard, AuthsCard, VisaCard, IsloadingSection } from "src/myComponents";
 import OrdersSection from '../orders-section/orders-section';
 import { getOrders } from 'src/services/orders';
 
@@ -25,6 +25,7 @@ export default function OrdersView() {
   const theme = useTheme();
   const { id } = useParams();
   const [ orders, setOrders ] = useState([]);
+  const [ loading, setLoading ] = useState(true);
   const [ ordersFillters, setOrdersFillters ] = useState({
     page: 1,
     perPage: 10
@@ -61,7 +62,7 @@ export default function OrdersView() {
 
   useEffect(()=>{
     handleGetOrders(id);
-  },[id])
+  },[id]);
 
   const handleRouteName = () => { 
     let invalideRouteName = true;
@@ -70,10 +71,14 @@ export default function OrdersView() {
   };
 
   const handleGetOrders = () => {
+    setLoading(true);
+    setOrders([]);
+
     getOrders(ordersFillters, id).then(res=> {
       if (res.success == "true") {
         setOrders(res.data);
       }
+      setLoading(false);
     });
   }
 
@@ -87,9 +92,12 @@ export default function OrdersView() {
         <TextField select size="medium" value={selectedOrdersCategory} onChange={(e)=>{setSelectedOrdersCategory(e.target.value); navigate(`/orders/${e.target.value}`)}} sx={{flex: 1,}} >
           { categoryOptions.map((item, index) => <MenuItem key={"option_"+index} value={item.value} sx={{direction: theme.direction.main}}> {item.lable} </MenuItem> ) }
         </TextField>
+        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />} ></Button>
       </Box>
 
-      <OrdersSection orders={orders} />
+      { !loading && orders.length > 0 && <OrdersSection orders={orders} /> }
+      { loading && <IsloadingSection sx={{height: "45vh"}} /> }
+      { !loading && orders.length <= 0 &&  <Box sx={{flex: 1, height: "50vh", display: "flex", justifyContent: "center", alignItems: "center"}} ><Typography> لايوجد طلبات </Typography></Box> }
       
     </Container>
   );

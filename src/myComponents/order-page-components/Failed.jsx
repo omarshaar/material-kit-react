@@ -10,10 +10,12 @@ import { useNavigate } from "react-router-dom";
 
 
 const Failed = (props) => {
-    const [ value, setValue ] = useState("");
-    const navigate = useNavigate();
     const { data } = props;
     const { id, type, hubID } = data;
+    const navigate = useNavigate();
+    const [ value, setValue ] = useState("");
+    const [ notiMsg, setNotimsg ] = useState("");
+    const [ notiTitle, setNotiTitle ] = useState("");
 
     function handleIsFailed() {
         const query = {failed: 1, complated: 0};
@@ -22,9 +24,11 @@ const Failed = (props) => {
         const sure = window.confirm("هل انت متأكد؟");
         if(!sure) return;
         
-        failedOrder(id, type, hubID, value).then(res=> {
+        failedOrder(id, type, hubID, value, notiMsg, notiTitle).then(res=> {
             if (res) {
                 setValue("");
+                setNotimsg("");
+                setNotiTitle("");
                 navigate('/order/'+hubID, { state: {reload: true} });
             }
         });
@@ -33,6 +37,8 @@ const Failed = (props) => {
     return (
         <SectionCard title="فشل الطلبية" spacing={useResponsiveSizes(1,1, undefined, "sm")} >
             <MyInput placeholder={"ادخل السبب"}  value={value} onChange={(value)=> setValue(value)} />
+            <MyInput placeholder={"عنوان الاشعار"}  value={notiTitle} onChange={(value)=> setNotiTitle(value)} />
+            <MyInput placeholder={"رسالة الاشعار"}  value={notiMsg} onChange={(value)=> setNotimsg(value)} multiline />
             <MyButton title="فشل اكمال الطلب" onClick={handleIsFailed} sx={{backgroundColor: "error.darker"}} />
         </SectionCard>
     );

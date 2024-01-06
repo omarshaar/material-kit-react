@@ -14,13 +14,14 @@ import { useTheme } from '@mui/material/styles';
 import { useResponsiveSizes } from "src/hooks/use-responsive-sizes";
 // components
 import Iconify from 'src/components/iconify';
-import { OrderDetails, Payment, Complated, EditOrder, Failed } from 'src/myComponents';
+import { OrderDetails, Payment, Complated, EditOrder, Failed, IsloadingSection } from 'src/myComponents';
 import { getOrder } from 'src/services/orders';
 
 
 const OrderSection = (props) => {
     const { id, data } = props;
     const [ orderData, setOrderData ] = useState(data);
+    const [ noOrderMsg, setNoorderMsg ] = useState(null);
 
     useEffect(()=>{ getData(data); },[data]);
 
@@ -28,9 +29,12 @@ const OrderSection = (props) => {
         if(data && !data.reload) return;
         getOrder(id).then(res=> {
             if (res.success == true) { setOrderData(res.data[0]); }
+            else { setNoorderMsg(res.msg) }
         })
     }
 
+    if (!orderData && !noOrderMsg) { return <IsloadingSection /> }
+    if (noOrderMsg) return <Box sx={{flex: 1, height: "70vh", display: "flex", justifyContent: "center", alignItems: "center"}} ><Typography> { noOrderMsg } </Typography></Box>;
 
     return (
         <Grid container spacing={3}>

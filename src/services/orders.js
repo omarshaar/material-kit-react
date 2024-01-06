@@ -79,7 +79,7 @@ export const complatedOrder = async (id, ordertype, capital, hubID) =>{
     return Respo.data;
 }
 
-export const failedOrder = async (id, ordertype, hubID, status) =>{
+export const failedOrder = async (id, ordertype, hubID, status, notiMsg, notiTitle) =>{
     const partnerData = await handleLogin();
     const API_Endpoint = `${BASE_URL}/api/order/failed/${partnerData.data.id}`;
 
@@ -89,6 +89,8 @@ export const failedOrder = async (id, ordertype, hubID, status) =>{
         hub_id: hubID
     };
     if (status) { data["status"] = status }
+    if (notiMsg) { data["notification_msg"] = notiMsg }
+    if (notiTitle) { data["notification_title"] = notiTitle }
 
     const config = {
         headers: {

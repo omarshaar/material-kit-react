@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 // Components
 // import AppWidgetSummary from '../app-widget-summary';
-import { AppWidgetSummary } from 'src/myComponents';
+import { AppWidgetSummary, IsloadingSection } from 'src/myComponents';
 // My Hooks
 import { useResponsiveSizes } from 'src/hooks/use-responsive-sizes';
 import Icons from 'src/assets/Icons';
@@ -21,6 +21,7 @@ import { Box } from '@mui/material';
 export default function AppView() {
   const navigate = useNavigate();
   const theme = useTheme();
+  const [ isLoading, setIsLoading ] = useState(false);
   const [ summarys, setSummarys ] = useState({
     all_orders: 0,
     all_paid_orders: 0,
@@ -30,7 +31,9 @@ export default function AppView() {
   const [ inProgressOrders, setInProgressOrders ] = useState([]);
 
   useEffect(()=>{
+    setIsLoading(true);
     init().then((res)=>{
+      setIsLoading(false);
       if(res.success == "true"){
         setSummarys(res.overview);
         setInProgressOrders(res.inprogress_orders);
@@ -90,8 +93,9 @@ export default function AppView() {
 
       <Typography variant='subtitle1' sx={{p: 1}} style={{direction: theme.direction.main, color: theme.palette.action.active }} > قيد التنفيذ </Typography>
 
+      { isLoading && inProgressOrders.length <= 0 && <IsloadingSection sx={{height: "45vh"}} /> }
       { inProgressOrders.length > 0 && <AppInprogressOrders inProgressOrders={inProgressOrders} /> }
-      { inProgressOrders.length <= 0 &&
+      { inProgressOrders.length <= 0 && !isLoading &&
         <Box sx={{
           flex: 1,
           height: "35vh",

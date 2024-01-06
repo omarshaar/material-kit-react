@@ -11,6 +11,7 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { bgBlur } from 'src/theme/css';
 
 import Iconify from 'src/components/iconify';
+import { useNavigate } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -39,8 +40,10 @@ const StyledSearchbar = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function Searchbar() {
+export default function Searchbar(props) {
   const [open, setOpen] = useState(false);
+  const [orderId, setOrderID] = useState(false);
+  const navigate = useNavigate();
 
   const handleOpen = () => {
     setOpen(!open);
@@ -48,7 +51,12 @@ export default function Searchbar() {
 
   const handleClose = () => {
     setOpen(false);
+    const id = parseInt(orderId);
+    if (id && !isNaN(id)) { navigate("/order/"+id); }
+    setOrderID(false);
   };
+
+
 
   return (
     <ClickAwayListener onClickAway={handleClose}>
@@ -62,7 +70,8 @@ export default function Searchbar() {
         <Slide direction="down" in={open} mountOnEnter unmountOnExit>
           <StyledSearchbar>
             <Input
-              autoFocus
+              onChange={(e)=> setOrderID(e.target.value)}
+              autoFocus 
               fullWidth
               disableUnderline
               placeholder="Search…"

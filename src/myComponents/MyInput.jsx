@@ -4,7 +4,7 @@ import { useResponsiveSizes } from "src/hooks/use-responsive-sizes";
 import PropTypes from 'prop-types';
 
 
-const MyInput = forwardRef(({placeholder, value, onChange}, ref)=>
+const MyInput = forwardRef(({placeholder, value, onChange, multiline}, ref)=>
     <TextField 
         ref={ref} 
         InputProps={{sx: {
@@ -14,6 +14,7 @@ const MyInput = forwardRef(({placeholder, value, onChange}, ref)=>
         placeholder={placeholder} 
         value={value}
         onChange={(e)=> onChange(e.target.value)}
+        multiline={multiline}
     />
 )
 

@@ -24,6 +24,7 @@ const OrdersSection = ({orders}) => {
         navigate('/order/'+item.hubID, { state: item });
     }
 
+
     return (
         <Grid container spacing={useResponsiveSizes(0, 1.5, "xs", "sm")}>
             {   orders &&

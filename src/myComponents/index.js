@@ -1,6 +1,7 @@
 import AppWidgetSummary from "./AppWidgetSummary";
 import MyButton from "./MyButton";
 import MyInput from "./MyInput";
+import IsloadingSection from "./isloading-section/IsloadingSection";
 import AuthsCard from "./order-cards/AuthsCard";
 import RasidCard from "./order-cards/RasidCard";
 import TranslatorCard from "./order-cards/TranslatorCard";
@@ -28,4 +29,5 @@ export {
     Complated,
     EditOrder,
     Failed,
+    IsloadingSection
 }
