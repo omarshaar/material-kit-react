@@ -57,6 +57,10 @@ const VisaCard = (props) => {
                     { details && data.visum_purpose && <Row title="الغرض من التقديم:" value={ data.visum_purpose } color={theme.palette.error.dark} />}
                     { details && data.haveGermanCertificate && <Row title=" لديك شهادة B1 او اعلى:" value={ data.haveGermanCertificate ? "نعم" : "لا" } color={theme.palette.error.dark} /> }
                     { details && data.haveApprovalFromBundesagentur && <Row title="موافقة مسبقة من وكالة التوظيف؟" value={ data.haveApprovalFromBundesagentur ? "نعم" : "لا" } color={theme.palette.error.dark} /> }
+
+                    { details && data.email && <Row title="الايميل" value={data.email} color={theme.palette.error.dark} /> }
+                    { details && data.how_secure_livelihood_yria && <Row title="كيفية تامين المعيشة" value={data.how_secure_livelihood_yria} color={theme.palette.error.dark} /> }
+
                     { details && data.haveapprovalFromTheImmigrationAuthority && <Row title="موافقة مسبقة من مكتب الجانب:" value={ data.haveapprovalFromTheImmigrationAuthority ? "نعم" : "لا" } color={theme.palette.error.dark} /> }
                     { details && <Row title="اعيش في سوريا:" value={ data.is_live_in_syria ? "نعم" : "لا" } color={theme.palette.error.dark} />}
                     { details && <Row title="فلسطيني الاصل:" value={ data.is_palestinian ? "نعم" : "لا" } color={theme.palette.error.dark} />}

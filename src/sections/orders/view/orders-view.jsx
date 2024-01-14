@@ -92,7 +92,9 @@ export default function OrdersView() {
         <TextField select size="medium" value={selectedOrdersCategory} onChange={(e)=>{setSelectedOrdersCategory(e.target.value); navigate(`/orders/${e.target.value}`)}} sx={{flex: 1,}} >
           { categoryOptions.map((item, index) => <MenuItem key={"option_"+index} value={item.value} sx={{direction: theme.direction.main}}> {item.lable} </MenuItem> ) }
         </TextField>
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />} ></Button>
+        <Button variant="contained" color="inherit" sx={{height: 54, marginRight: 2}} >
+          <Iconify icon="clarity:filter-solid" />
+        </Button>
       </Box>
 
       { !loading && orders.length > 0 && <OrdersSection orders={orders} /> }

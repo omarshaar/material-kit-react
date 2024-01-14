@@ -42,6 +42,49 @@ export default function AppView() {
   },[]);
 
 
+  
+  const datay = {name: "omar"};
+
+  async function getData() {
+    let item = localStorage.getItem("log");
+    console.log(item);
+  }
+
+  let myPromise = new Promise((resolve, reject) => {
+    // القيام بعملية ما
+    let success = true; // أو يمكن تعيينها إلى false لاختبار الحالة المرفوضة
+  
+    if (success) {
+      resolve("1 تم التحقق!");
+    } else {
+      reject("1 حدث خطأ!");
+    }
+  });
+
+  let myPromise2 = new Promise((resolve, reject) => {
+    // القيام بعملية ما
+    let success = false; // أو يمكن تعيينها إلى false لاختبار الحالة المرفوضة
+  
+    if (success) {
+      resolve("2 تم التحقق!");
+    } else {
+      reject("2 حدث خطأ!");
+    }
+  });
+
+  useEffect(()=>{
+    getData();
+    
+    myPromise
+    .then( (resolve_data) => console.log(resolve_data))
+    .catch( (err)=> console.error(err) );
+
+    myPromise2
+    .then( (resolve_data) => console.log(resolve_data))
+    .catch( (err)=> console.error(err) );
+  },[]);
+
+
   return (
     <Container maxWidth="xl">
       { inProgressOrders.length > 0 &&

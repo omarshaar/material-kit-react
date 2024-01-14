@@ -36,7 +36,7 @@ export const getOrders = async (fillters, category) =>{
         }
     };
 
-    const Respo = await axios.get(API_Endpoint, config);
+    const Respo = (await axios.get(API_Endpoint, config));
     
     return Respo.data;
 }
