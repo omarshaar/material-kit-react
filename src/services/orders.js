@@ -61,6 +61,7 @@ export const complatedOrder = async (id, ordertype, capital, hubID) =>{
     const partnerData = await handleLogin();
     const API_Endpoint = `${BASE_URL}/api/order/complated/${partnerData.data.id}`;
 
+    console.log(capital);
     const data = {
         order_id: id,
         order_type: ordertype,

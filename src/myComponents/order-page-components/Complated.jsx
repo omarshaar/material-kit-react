@@ -21,7 +21,6 @@ const Complated = (props) => {
         const sure = window.confirm("هل انت متأكد؟");
         if(!sure) return;
         complatedOrder(id, type, taklifa, hubID).then((res)=>{
-            console.log(res);
             if (res.success) navigate('/order/'+hubID, { state: {reload: true} });
         });
     }

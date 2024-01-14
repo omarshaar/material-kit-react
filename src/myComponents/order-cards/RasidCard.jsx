@@ -37,7 +37,7 @@ const RasidCard = (props) => {
                     { details && <Row title="الوقت:" value={extractTime(data.created_at)} />}
                     { details && <Row title="تحقق الدفع:" value={data.paid ? "مدفوعة" : "غير مدفوعة" } />}
                     { details && <Row title="المعرف الخاص:" value={data.id} />}
-                    { details && data.capital && <Row title="التكلفة:" value={data.capital} />}
+                    { details && data.taklifa > 0 && <Row title="التكلفة:" value={data.taklifa} />}
                     <div style={{height: 1, width: "100%", backgroundColor: "#ddd", marginTop: 10, marginBottom: 10}}></div>
                     <Row title="الرقم:" value={data.receiver_number} color={theme.palette.error.dark} />
                     <Row title="الرصيد:" value={data.total_rasid} color={theme.palette.error.dark} />
