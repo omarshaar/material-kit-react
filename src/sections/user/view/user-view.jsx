@@ -22,6 +22,7 @@ import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 import { getUsers } from 'src/services/users';
+import { fShortenNumber } from 'src/utils/format-number';
 
 // ----------------------------------------------------------------------
 
@@ -40,6 +41,8 @@ export default function UserPage() {
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  
+  const [usersCount, setCount] = useState(0);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -100,7 +103,7 @@ export default function UserPage() {
   const getUserData = () => {
     getUsers(rowsPerPage ,page).then(res=> {
       if (res.success == "true") {
-        console.log(res);
+        setCount(res.count);
         setLastPage(res.last_page);
         setData(res.data);
       }
@@ -126,7 +129,7 @@ export default function UserPage() {
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">Users</Typography>
+        <Typography variant="h4"> { fShortenNumber(usersCount) } Users</Typography>
 
         <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
           New User
