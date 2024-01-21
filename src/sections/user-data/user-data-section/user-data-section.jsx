@@ -47,7 +47,7 @@ const UserDataSection = (props) => {
             <Grid xs={12} md={6} >
                 <Box>
                     <Typography variant="h6" sx={{ mb: useResponsiveSizes(0, 0.5, undefined, "md")}}>  بيانات المستخدم </Typography>
-                    <DataCard data={user} user_currency={statistics && statistics.user_currency} />
+                    <DataCard data={user} user_currency={statistics && statistics.user_currency}  os={statistics && statistics.os} />
                 </Box>
             </Grid>
 
@@ -87,13 +87,14 @@ export default UserDataSection;
 
 
 function DataCard(props) {
-    const { data, user_currency } = props;
+    const { data, user_currency, os } = props;
 
     return(
-        <Card sx={{p: {xs: 2, md: 4}, pb: {xs: {xs: 2, md: 4}, md: 11}}}>
+        <Card sx={{p: {xs: 2, md: 4}, pb: {xs: {xs: 2, md: 4}, md: 7.5}}}>
             <Row title="الاسم:" value={data && data.user_full_name} />
             <Row title="الايميل:" value={data && data.user_email} />
             { data && <Row title="تاريخ التسجيل:" value={extractDate(data.user_register_date)} />}
+            <Row title="نظام التشغيل:" value={os || "غير معروف"} />
             <Row title="العملة:" value={user_currency} />
         </Card>
     )
@@ -134,7 +135,7 @@ function CustomTabPanel(props) {
         {...other}
       >
         {value === index && (
-          <Box sx={{ p: {xs: 0, md: 2}, py: {xs: 2, md: 0} }}>
+          <Box sx={{ p: {xs: 0, md: 2}, py: {xs: 2} }}>
             <Typography>{children}</Typography>
           </Box>
         )}
