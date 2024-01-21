@@ -54,7 +54,7 @@ const RasidCard = (props) => {
                     <div style={{height: 1, width: "100%", backgroundColor: "#ddd", marginTop: 10, marginBottom: 10}}></div>
                     <Row isPapa={isPapa} title="الرقم:" value={data.receiver_number} color={theme.palette.error.dark} />
                     <Row isPapa={isPapa} title="الرصيد:" value={data.total_rasid} color={theme.palette.error.dark} />
-                    <Row isPapa={isPapa} title="نوع الخط:" value={data.sim_type == "vatora" ? "فاتورة" : "وحدات" } color={theme.palette.error.dark} />
+                    <Row isPapa={isPapa} title="نوع الخط:" value={data.sim_type == "vatora" ? "فاتورة" : data.sim_type == "cash" ? "موبايل كاش" : "وحدات" } color={theme.palette.error.dark} />
                 </Box>
 
                 <Box sx={{
