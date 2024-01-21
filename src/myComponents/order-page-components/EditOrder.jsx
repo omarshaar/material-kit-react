@@ -30,7 +30,7 @@ const EditOrder = () => {
 
             </Box>
             <MyInput placeholder={"ادخل القيمة الجديدة"}  value={taklifa} onChange={(value)=> setTaklifa(value)} />
-            <MyButton title="حفظ التغيرات" onClick={()=> console.log("payment")} />
+            <MyButton title="حفظ التغيرات" onClick={()=> {}} />
         </SectionCard>
     );
 }

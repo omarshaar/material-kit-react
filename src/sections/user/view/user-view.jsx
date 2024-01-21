@@ -23,10 +23,13 @@ import UserTableToolbar from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 import { getUsers } from 'src/services/users';
 import { fShortenNumber } from 'src/utils/format-number';
+import { useNavigate } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
 export default function UserPage() {
+  const navigate = useNavigate();
+
   const [ data, setData ] = useState([]);
   const [ lastPage, setLastPage ] = useState(0);
 
@@ -61,23 +64,9 @@ export default function UserPage() {
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    console.log(name);
-    // let newSelected = [];
-    // if (selectedIndex === -1) {
-    //   newSelected = newSelected.concat(selected, name);
-    // } else if (selectedIndex === 0) {
-    //   newSelected = newSelected.concat(selected.slice(1));
-    // } else if (selectedIndex === selected.length - 1) {
-    //   newSelected = newSelected.concat(selected.slice(0, -1));
-    // } else if (selectedIndex > 0) {
-    //   newSelected = newSelected.concat(
-    //     selected.slice(0, selectedIndex),
-    //     selected.slice(selectedIndex + 1)
-    //   );
-    // }
-    // setSelected(newSelected);
+  const handleClick = (event, row) => {
+    // const selectedIndex = selected.indexOf(name);
+    navigate("/user/"+row.user_id);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -177,7 +166,7 @@ export default function UserPage() {
                           avatarUrl={`/assets/images/avatars/avatar_${getRandomNumber()}.jpg`}
                           user_city={row.user_city}
                           // selected={selected.indexOf(row.name) !== -1}
-                          handleClick={(event) => handleClick(event, row.name)}
+                          handleClick={(event) => handleClick(event, row)}
                         />
                       ))}
 

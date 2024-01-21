@@ -41,7 +41,6 @@ export default function LoginView() {
   };
 
   const handleResponse = (res) =>{
-    console.log(res);
     let loginData = localStorage.getItem("log");
     if (loginData) localStorage.removeItem("log");
     else {

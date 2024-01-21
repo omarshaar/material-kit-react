@@ -21,7 +21,7 @@ const WalletTabs = (props) => {
     return (
         <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+            <Tabs value={value} onChange={handleChange} aria-label="tabs">
               <Tab label="الوارد" {...a11yProps(0)} />
               <Tab label="الصادر" {...a11yProps(1)} />
             </Tabs>

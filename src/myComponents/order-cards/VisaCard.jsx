@@ -18,7 +18,6 @@ const VisaCard = (props) => {
         "d" : "اعادة توطين للحاصلين على الاقامة",
         "e" : "فيزا للزيارة او السياحة",
     });
-    console.log(data);
 
 
     return (
@@ -26,10 +25,11 @@ const VisaCard = (props) => {
           spacing={1}
           onClick={callBack}
           component={Stack}
-          sx={{ direction: theme.direction.main, p: useResponsiveSizes(1, 1, "xs", "md"), borderRadius: 2, boxShadow: theme.shadows[2], cursor: "pointer", ...sx,  }}
+          sx={{ direction: theme.direction.main, p: useResponsiveSizes(1, 0.5, "xs", "md"), borderRadius: 2, boxShadow: theme.shadows[2], cursor: "pointer", ...sx,  }}
         >
             <Box sx={{flex: 1, display: "flex" , justifyContent: "space-between", alignItems: "center"}} component={"div"}>
                 <Box sx={{flex: 1}} >
+                    <Row title="اسم المستخدم:" value={data.userName} />
                     <Row title="الاسم:" value={data.first_name + " " + data.last_name} />
                     <Row title="رقم الطلبية:" value={data.hubID} />
                     <Row title="المبلغ:" value={data.total_payment_amount} />

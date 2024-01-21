@@ -61,7 +61,6 @@ export const complatedOrder = async (id, ordertype, capital, hubID) =>{
     const partnerData = await handleLogin();
     const API_Endpoint = `${BASE_URL}/api/order/complated/${partnerData.data.id}`;
 
-    console.log(capital);
     const data = {
         order_id: id,
         order_type: ordertype,
@@ -130,6 +129,23 @@ export const editOrder = async (id, ordertype, order_data) =>{
 export const getBalance = async () =>{
     const partnerData = await handleLogin();
     const API_Endpoint = `${BASE_URL}/api/balance/${partnerData.data.id}`;
+
+    const config = {
+        headers: {
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${partnerData.data.token}`
+        }
+    };
+
+    const Respo = await axios.get(API_Endpoint, config);
+    
+    return Respo.data;
+}
+
+
+export const getUserData = async (id) =>{
+    const partnerData = await handleLogin();
+    const API_Endpoint = `${BASE_URL}/api/user/${id}`;
 
     const config = {
         headers: {
