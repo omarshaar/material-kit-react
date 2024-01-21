@@ -76,8 +76,8 @@ const RasidCard = (props) => {
 
 const Row = forwardRef(({title, value, icon, color, isPapa}, ref)=>
     <Box component={"div"} sx={{display: "flex", alignItems: "center", mb: 0.5}} ref={ref}>
-        <Typography variant="subtitle1" sx={isPapa ? {fontSize: useResponsiveSizes(14, 2, "xs", "md"), px: 1.5} : {fontSize: useResponsiveSizes(10, 2, "xs", "md"), px: 1.5}} > {title} </Typography>
-        <Typography variant="h1"sx={isPapa ? {fontSize: useResponsiveSizes(14, 2, "xs", "md"), px: 1.5} : {fontSize: useResponsiveSizes(10, 2, "xs", "md"), px: 1.5}} style={color && {color: color}} > {value} </Typography>
+        <Typography variant="subtitle1" sx={isPapa ? {fontSize: useResponsiveSizes(14, 2, "xs", "md")} : {fontSize: useResponsiveSizes(10, 2, "xs", "md")}} > {title} </Typography>
+        <Typography variant="h1"sx={isPapa ? {fontSize: useResponsiveSizes(17, 2, "xs", "md"), px: 1.5} : {fontSize: useResponsiveSizes(10, 2, "xs", "md"), px: 1.5}} style={color && {color: color}} > {value} </Typography>
     </Box>
 ); 
 
